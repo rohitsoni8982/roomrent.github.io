@@ -1,0 +1,83 @@
+{% extends 'adminhome.html' %}
+
+{% block content %} 
+
+<script>
+function fetchSubCatAJAX(catname)
+{
+ var xhttp = new XMLHttpRequest();
+ xhttp.open("GET","http://localhost:8000/myadmin/fetchSubCatAJAX/?catname="+catname,true);
+ xhttp.send();
+
+ xhttp.onreadystatechange=function(){
+  if(xhttp.readyState==4 && xhttp.status==200)
+  {
+    document.getElementById("result").innerHTML=xhttp.responseText;
+  }   
+ }
+
+}  
+</script>
+
+<div class="container">
+<div class="row">
+<div class="col-lg-12">
+<h1>Add Rental Property Here!!!</h1>
+<font color="blue">{{output}}</font>
+<form method="post" action="/myadmin/addproperty/" enctype="multipart/form-data" >
+{% csrf_token %}    
+  <div class="form-group">
+    <label for="title">Title:</label>
+    <input type="text" class="form-control" name="title" placeholder="Enter Rental Property Title">
+  </div>  
+  <div class="form-group">
+    <label for="category">Category:</label>
+    <select onchange="fetchSubCatAJAX(this.value)" class="form-control" name="catname" >
+    <option>Select Category</option>
+    {% for c in clist %}
+    <option>{{c.catname}}</option>
+    {% endfor %}        
+    </select>
+  </div>  
+  <br/>
+  <div class="form-group">
+    <label for="category">Sub Category:</label>
+    <select id="result" class="form-control" name="subcatname" >
+    <option>Select Sub Category</option>        
+    </select>
+  </div>  
+  <br/>
+  <div class="form-group">
+    <label for="description">Description:</label>
+    <textarea rows="5" class="form-control" name="description" placeholder="Enter Property Description"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="picon">Property Icon:</label>
+    <input type="file" class="form-control" name="picon"  >
+  </div>
+  <div class="form-group">
+    <label for="locality">Locality:</label>
+    <select class="form-control" name="locality" >
+    <option>Select Locality</option>
+    <option>Locality1</option>
+    <option>Locality2</option>        
+    <option>Locality3</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="city">City:</label>
+    <select class="form-control" name="city" >
+    <option>Select City</option>
+    <option>Indore</option>
+    <option>Bhopal</option>
+    <option>Ujjain</option>        
+    </select>
+  </div>
+  <button type="submit" class="btn btn-success">Add Property</button>
+</form>
+</div>
+</div>
+</div>
+{% endblock content %}
+
+

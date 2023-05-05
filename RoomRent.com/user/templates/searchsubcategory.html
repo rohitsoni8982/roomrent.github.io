@@ -1,0 +1,53 @@
+{% extends 'userhome.html' %}
+{% load static %}
+
+{% block content %} 
+
+<style>
+#category_main
+{
+ height:auto;
+ width:600px; 
+}
+.category_part
+{
+ height:150px;
+ width:200px; 
+ float:left;
+}    
+</style>
+
+<div class="container">
+<div class="row">
+<div class="col-lg-4">
+<h1>Category List >></h1>    
+<ul>
+{% for c in clist %}
+<li>
+<a href="/user/searchsubcategory/?cnm={{c.catname}}" >
+{{c.catname}}
+</a>
+</li>
+{% endfor %}
+</ul>
+</div>    
+<div class="col-lg-8">
+<h1>Sub Category List >> {{cnm}}</h1>
+<center>
+<div id="category_main">
+{% for row in sclist %}    
+<a href="/user/viewproperty/?cnm={{cnm}}&scnm={{row.subcatname}}" >
+<div class="category_part">
+    <img src="{{MEDIA_URL}}{{row.subcaticonname}}" height="100" width="120" />
+<br/>
+<b>{{row.subcatname}}</b>    
+</div>
+</a>
+{% endfor %}
+</div>
+</center>
+</div>
+</div>
+</div>
+{% endblock content %}
+

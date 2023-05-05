@@ -1,0 +1,81 @@
+{% extends 'master_template.html' %}
+
+{% block content %} 
+<script>
+
+function checkEmailAvaibility(emailid)
+{
+ var xhttp = new XMLHttpRequest();
+ xhttp.open("GET","http://localhost:8000/checkEmailAvaibility/?emailid="+emailid,true);
+ xhttp.send();
+
+ xhttp.onreadystatechange=function(){
+  if(xhttp.readyState==4 && xhttp.status==200)
+  {
+    var ref=document.getElementById("result");
+    if(parseInt(xhttp.responseText))
+    {
+      ref.innerHTML="Email id already exists....";
+      ref.style.color="red";
+    }
+    else
+    {
+      ref.innerHTML="Email id available....";
+      ref.style.color="green";
+    }
+  }   
+ }
+}
+
+</script>
+<div class="container">
+<div class="row">
+<div class="col-lg-12">
+<h1>Register Here!!!</h1>
+<font color="blue">{{output}}</font>
+<form method="post" action="/register/">
+{% csrf_token %}    
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" class="form-control" name="name" placeholder="Enter Name">
+  </div>    
+  <div class="form-group">
+    <label for="email">Email address:</label>
+    <input onkeyup="checkEmailAvaibility(this.value)" type="email" class="form-control" name="email" placeholder="Enter Email">
+    <span id="result"></span>
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" class="form-control" name="password" placeholder="Enter Password" >
+  </div>
+  <div class="form-group">
+    <label for="mobile">Mobile:</label>
+    <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile">
+  </div>
+  <div class="form-group">
+    <label for="address">Address:</label>
+    <textarea rows="5" class="form-control" name="address" placeholder="Enter Address"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="city">City:</label>
+    <br/>
+    <select class="form-control" name="city">
+    <option>Select City</option>
+    <option>Indore</option>
+    <option>Bhopal</option>
+    <option>Ujjain</option>    
+    </select>
+  </div>
+  <br/><br/><br/>
+  <div class="form-group">
+    <label for="gender">Gender:</label>
+    Male <input type="radio" name="gender" value="male">
+    Female <input type="radio" name="gender" value="female" >
+  </div>
+  <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+</div>
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends 'userhome.html' %}
+{% load static %}
+
+{% block content %} 
+<div class="container">
+<div class="row">
+<div class="col-lg-4">
+<h1>Sub Category List >> {{cnm}}</h1>    
+<ul>
+{% for c in sclist %}
+<li>
+<a href="/user/viewproperty/?cnm={{cnm}}&scnm={{c.subcatname}}" >
+{{c.subcatname}}
+</a>
+</li>
+{% endfor %}
+</ul>
+</div>    
+<div class="col-lg-8">
+<h1>Property List >> {{cnm}} >> {{scnm}}</h1>
+{% for row in plist %}
+<table border="2" height="150" width="500">
+<tr>
+<td width="35%" rowspan="3" >
+<img src="{{MEDIA_URL}}{{row.piconname}}" height="100" width="150"/>
+</td>
+<td><b>Title : {{row.title}}</b></td>    
+</tr>
+<tr>
+<td><b>Description : {{row.description}}</b></td>    
+</tr>
+<tr>
+<td><b>Location : {{row.locality}}</b></td>    
+</tr>    
+</table>
+<br/><br/>
+{% endfor %}
+</div>
+</div>
+</div>
+{% endblock content %}
+
